@@ -1,0 +1,24 @@
+#!/bin/tcsh
+
+foreach arg ( $< )
+  set argv = ( $arg )
+  set refname = $1
+end
+
+set branch = `git rev-parse --symbolic --abbrev-ref $refname`
+echo "Pushing to " $branch " in Accute VPS Server Repo"
+
+if ( "$branch" == "development" ) then
+  echo "Branch detected: Development"
+  git --work-tree=/var/www/accute/dev/backend_accute_web checkout -f development || echo "Failed in Deploying to development Server "
+endif
+
+if ( "$branch" == "production" ) then
+  echo "Branch detected: Production"
+  git --work-tree=/var/www/accute/pro/backend_accute_web checkout -f production || echo "Failed in Deploying to production Server "
+endif
+
+ else
+    echo "Your push was successful."
+    echo "Private branch detected. No action triggered."
+endif
